@@ -249,6 +249,66 @@ Example request:
 
 The API returns the generated answer together with the supporting citations.
 
+### API Usage with PowerShell
+
+With the API running locally, you can query it using:
+
+```powershell
+Invoke-RestMethod `
+  -Uri "http://localhost:8000/query" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"question":"What was Acme Technologies revenue in 2024?"}'
+```
+
+Example response:
+
+```json
+{
+  "answer": "Acme Technologies' revenue in 2024 was ₹ 10 crore.",
+  "citations": [
+    {
+      "source": "data/raw/acme_multimodal_test.pdf",
+      "page_number": 3,
+      "element_type": "image",
+      "chunk_id": "..."
+    }
+  ]
+}
+```
+
+The response contains the generated answer together with the retrieval chunks used as supporting evidence.
+
+### API Documentation
+
+FastAPI also provides interactive API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+The OpenAPI schema is available at:
+
+```text
+http://localhost:8000/openapi.json
+```
+
+---
+
+## Demo
+
+### FastAPI Interactive API
+
+The project exposes an interactive OpenAPI/Swagger interface for testing the API locally.
+
+![FastAPI Swagger UI](docs/screenshots/swagger-api.png)
+
+### RAG Query with Citations
+
+A sample query returns a grounded answer together with citation metadata identifying the supporting document, page, element type, and retrieval chunk.
+
+![RAG query response](docs/screenshots/rag-query-response.png)
+
 ---
 
 ## Document Ingestion and Indexing
@@ -321,7 +381,7 @@ Example:
 
 ```json
 {
-  "source": "acme_multimodal_test.pdf",
+  "source": "data/raw/acme_multimodal_test.pdf",
   "page_number": 3,
   "element_type": "image",
   "chunk_id": "..."
